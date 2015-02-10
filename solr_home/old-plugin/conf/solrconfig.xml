@@ -7,33 +7,43 @@
   <luceneMatchVersion>4.10</luceneMatchVersion>
 
   <!--Adjust the following lib entry if you move bt-rni-solr4x-plugins.jar to a different location.-->
+<!--
   <lib path="${bt.root}/rlpnc/samples/java/lib/bt-rni-solr4x-plugins.jar" />
-  
-  <!--The pairwise name matching function query -->
-  <valueSourceParser name="rniMatch" class="com.basistech.rni.solr.NameMatchValueSourceParser"/>
-  <!--Version of the rerank query parser with various bug fixes. Unnecessary if using Solr 4.10.3 or greater -->
-  <queryParser name="fixedRerank" class="org.apache.solr.search.Solr4_10_3ReRankQParserPlugin"/>
-  
-  <updateRequestProcessorChain name="RNI">
-    <!--Custom processor required when using multivalued name fields -->
-    <processor class="com.basistech.rni.solr.MultiValueNameUpdateRequestProcessorFactory"/>
-    
-    <!--Other processors can be configured as desired -->
-    <processor class="solr.LogUpdateProcessorFactory" />
-    <processor class="solr.UUIDUpdateProcessorFactory">
-      <str name="fieldName">id</str>
-    </processor>
-    <processor class="solr.DistributedUpdateProcessorFactory"/>
-    <processor class="solr.RunUpdateProcessorFactory" />
-  </updateRequestProcessorChain>
-  
- <!--If using multivalued name fields, then add the URP to the update chain -->
-  <requestHandler name="/update" class="solr.UpdateRequestHandler">
+-->
+
+  <searchComponent name="name-indexing-query" class="com.basistech.rni.solr.NameIndexingQueryComponent" />  
+  <searchComponent name="name-indexing-rescore" class="com.basistech.rni.solr.NameIndexingRescoreComponent"/>
+  <requestHandler name="/RNI" class="solr.SearchHandler" default="false">
+    <arr name="components">
+        <str>name-indexing-query</str>
+        <str>name-indexing-rescore</str>
+        <str>facet</str>
+        <str>mlt</str>
+        <str>highlight</str>
+        <str>stats</str>
+        <str>debug</str>
+      </arr>
+      <lst name="defaults">
+        <str name="echoParams">explicit</str>
+        <int name="rows">1000</int>
+      </lst>
+    </requestHandler>
+
+    <!-- activate RNI processing by adding the RNI URP to the chain for xml updates -->
+  <requestHandler name="/update" 
+                  class="solr.UpdateRequestHandler">
     <lst name="defaults">
       <str name="update.chain">RNI</str>
     </lst>
-  </requestHandler>
-  
+    </requestHandler>
+
+   <updateRequestProcessorChain name="RNI">
+    <!-- some day, add parameters when we have some -->
+    <processor class="com.basistech.rni.solr.NameIndexingUpdateRequestProcessorFactory"/>
+    <processor class="solr.LogUpdateProcessorFactory" />
+    <processor class="solr.RunUpdateProcessorFactory" />
+  </updateRequestProcessorChain>
+
   <!-- End of RNI specific configuration -->
   
   <!--Standard solr configuration -->

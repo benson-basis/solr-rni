@@ -7,7 +7,9 @@
   <luceneMatchVersion>4.10</luceneMatchVersion>
 
   <!--Adjust the following lib entry if you move bt-rni-solr4x-plugins.jar to a different location.-->
+<!--
   <lib path="${bt.root}/rlpnc/samples/java/lib/bt-rni-solr4x-plugins.jar" />
+-->
   
   <!--The pairwise name matching function query -->
   <valueSourceParser name="rniMatch" class="com.basistech.rni.solr.NameMatchValueSourceParser"/>

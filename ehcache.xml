@@ -4,10 +4,10 @@
          updateCheck="false" monitoring="autodetect"
          dynamicConfig="true"
          name="basistech-rni"
-         maxBytesLocalHeap="100g">
+         maxBytesLocalHeap="180g">
     <cacheManagerEventListenerFactory class="" properties=""/>
     <cache name="globalTokenCache"
-           maxBytesLocalHeap="100g"
+           maxBytesLocalHeap="180g"
            eternal="false"
            timeToIdleSeconds="600"
            overflowToDisk="false"

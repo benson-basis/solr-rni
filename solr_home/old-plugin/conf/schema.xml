@@ -1,52 +1,81 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <schema name="bt_rni_sample" version="1.5">
     
-  <fieldType name="bt_rni_name" class="com.basistech.rni.solr.NameField"  />
+  <types>
+    <fieldType name="string" class="solr.StrField" sortMissingLast="true" omitNorms="true"/>
+    <fieldType name="integer" class="solr.IntField" omitNorms="true"/>
+    <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true" omitNorms="true"/>
+    <fieldType name="text_ws" class="solr.TextField" positionIncrementGap="100">
+      <analyzer>
+        <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+      </analyzer>
+    </fieldType>
+    <!--Binary data type. The data should be sent/retrieved in as Base64 encoded Strings -->
+    <fieldtype name="binary" class="solr.BinaryField"/>
+    <fieldType name="long" class="solr.TrieLongField" precisionStep="0" positionIncrementGap="0"/>
+  </types>
   
-  <!--examples of Name field types with properties defined -->
-  <fieldType name="bt_rni_name_loc" class="com.basistech.rni.solr.NameField"
-             entityType="LOCATION"   />
-  <fieldType name="bt_eng_per" class="com.basistech.rni.solr.NameField"
-             entityType="PERSON" lang="eng" script="Latn"   />
-  <fieldType name="bt_eng_org" class="com.basistech.rni.solr.NameField"
-             entityType="ORGANIZATION" lang="eng" script="Latn"   />
-  <fieldType name="bt_kor_per" class="com.basistech.rni.solr.NameField"
-             entityType="PERSON" lang="kor" script="Hani"   />
-  <fieldType name="bt_zho_per" class="com.basistech.rni.solr.NameField"
-             entityType="PERSON" lang="zho" script="Hani"   />
+  <fields>
 
-  <fieldType name="string" class="solr.StrField" multiValued="false" sortMissingLast="true" omitNorms="true"   />
-  <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true" omitNorms="true"/>
-  <fieldType name="long" class="solr.TrieLongField" precisionStep="0" positionIncrementGap="0"/>
-  
-  <fieldType name="text_ws" class="solr.TextField" positionIncrementGap="100">
-    <analyzer>
-      <tokenizer class="solr.WhitespaceTokenizerFactory"/>
-    </analyzer>
-  </fieldType>
-  <fieldType name="date" class="solr.TrieDateField" precisionStep="0" positionIncrementGap="0"/>
-  
-  <fieldtype name="binary" class="solr.BinaryField"/>
+   <!-- indexed=true only to allow it to be default. -->
+   <field name="bt_rni_name" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="id" type="string" indexed="true" stored="true" omitNorms="false"  multiValued="false" />
+   
+   <!-- used only in queries to distinguish the language of a name supplied for the query
+        from the language of the name the query finds. -->
+   <field name="bt_rni_targetLanguage" type="string" indexed="false" stored="true" multiValued="false" />
+   <field name="bt_rni_targetScript" type="string" indexed="false" stored="true" multiValued="false" />
+   <!-- used to build fielded names in solr. -->
+   <field name="bt_rni_Name_Field1" type="string" indexed="false" stored="true" omitNorms="true" omitTermFreqAndPositions="true" multiValued="false" />
+   <field name="bt_rni_Name_Field2" type="string" indexed="false" stored="true" omitNorms="true" omitTermFreqAndPositions="true" multiValued="false" />
+   <field name="bt_rni_Name_Field3" type="string" indexed="false" stored="true" omitNorms="true" omitTermFreqAndPositions="true" multiValued="false" />
+   <field name="bt_rni_Name_Field4" type="string" indexed="false" stored="true" omitNorms="true" omitTermFreqAndPositions="true" multiValued="false" />
+   <field name="bt_rni_Name_Field5" type="string" indexed="false" stored="true" omitNorms="true" omitTermFreqAndPositions="true" multiValued="false" />
 
-  <!--A name field -->
-  <field name="primaryName" type="bt_rni_name" indexed="true" stored="true" multiValued="false" />
-  <!--A multivalued name field -->
-  <field name="aka" type="bt_rni_name" indexed="true" stored="true" multiValued="true"/>
-  <!--A location name field -->
-  <field name="nationality" type="bt_rni_name_loc" indexed="true" stored="true" multiValued="false" />
-  
-  <field name="dob" type="date" indexed="true" stored="true"/>
-  <field name="uid" type="string" indexed="true" stored="true" multiValued="false" />
-  <field name="address" type="string" indexed="true" stored="true" multiValued="false" />
-  
+   <!-- used to index and query names directly without using solrj -->
+   <field name="bt_rni_Name_Script" type="string" indexed="true" stored="true" omitNorms="true" omitTermFreqAndPositions="false" multiValued="false" /> 
+   <field name="bt_rni_Name_Language" type="string" indexed="true" stored="true" omitNorms="true" omitTermFreqAndPositions="true" multiValued="false" />
+   <field name="bt_rni_Name_UID" type="string" indexed="true" stored="true" omitNorms="true" omitTermFreqAndPositions="true" multiValued="false" />
+   <field name="bt_rni_Name_EntityType" type="string" indexed="true" stored="true" omitNorms="true" omitTermFreqAndPositions="true" multiValued="false" />
+   <field name="bt_rni_Name_isPrimary" type="string" indexed="true" stored="true" omitNorms="true" omitTermFreqAndPositions="true" multiValued="false" />
+   <field name="bt_rni_Name_EntityUID" type="string" indexed="true" stored="true" omitNorms="true" omitTermFreqAndPositions="true" multiValued="false" />
+   <field name="bt_rni_Name_Extra" type="text_ws" indexed="true" stored="true" omitNorms="true" omitTermFreqAndPositions="true" multiValued="false" />
+   <field name="bt_rni_Name_LanguageOfOrigin" type="string" indexed="true" stored="true" omitNorms="true" omitTermFreqAndPositions="true" multiValued="false" />
+   
+   <field name="bt_rni_Name_NormalizedData" type="text_ws" indexed="true" stored="false" multiValued="false" />
+   <field name="bt_rni_Name_CompletedData" type="text_ws" indexed="true" stored="false" multiValued="false" />
+   <field name="bt_rni_Name_TokenOverrides" type="text_ws" indexed="true" stored="false" multiValued="false" />
+   <field name="bt_rni_Name_FullnameOverrides" type="string" indexed="true" stored="false" omitNorms="true" omitTermFreqAndPositions="true" multiValued="false" />
+   
+   <field name="bt_rni_Entity_Key" type="string" indexed="true" stored="true" omitNorms="true" omitTermFreqAndPositions="true" multiValued="false" />
+   <field name="bt_rni_Entity_Data" type="binary" indexed="false" stored="true"  multiValued="false" /><!-- Base64 Encoded binary String-->
+   <field name="bt_rni_Entity_Type" type="string" indexed="false" stored="true" multiValued="false" />
+
+   <field name="bt_rni_NameHRK_encodedName" type="text_ws" indexed="true" stored="false" multiValued="false" />
+   <field name="bt_rni_NameHRK_encodedName2" type="text_ws" indexed="true" stored="false" multiValued="false" />
+   <field name="bt_rni_NameHRK_encodedName3" type="text_ws" indexed="true" stored="false" multiValued="false" />
+   <field name="bt_rni_NameHRK_encodedName4" type="text_ws" indexed="true" stored="false" multiValued="false" />
+   <field name="bt_rni_NameHRK_encodedName5" type="text_ws" indexed="true" stored="false" multiValued="false" />
+   <field name="bt_rni_NameHRK_encodedName6" type="text_ws" indexed="true" stored="false" multiValued="false" />
+   <field name="bt_rni_NameHRK_translatedName" type="string" indexed="true" stored="false" multiValued="true" />
+   <field name="bt_rni_NameHRK_originalName" type="string" indexed="false" stored="false" multiValued="false" />
+   <field name="bt_rni_NameHRK_keyBigrams" type="text_ws" indexed="true" stored="false" multiValued="false" />
+   <field name="bt_rni_NameHRK_initials" type="text_ws" indexed="true" stored="false" multiValued="false" />
+   <field name="bt_rni_NameHRK_indexInitialism" type="text_ws" indexed="true" stored="false" multiValued="false" />
+   <field name="bt_rni_NameHRK_queryInitialism" type="text_ws" indexed="true" stored="false" multiValued="false" />
+   
+   <!-- contains the entire name object serialized in json -->
+   <field name="bt_rni_Name_Store" type="string" indexed="false" stored="true" multiValued="false" />
+
   <field name="_version_" type="long" indexed="true" stored="true" multiValued="false"/>
-  <field name="text" type="text_ws" indexed="true" stored="false" multiValued="true"/>
-
-  <field name="id" type="string" indexed="true" stored="true" omitNorms="false"  multiValued="false" />
+  <field name="year_of_birth" type="integer" indexed="true" stored="true" multiValued="false"/>
+ </fields>
+<!-- rnicli doesn't provide.
   <uniqueKey>id</uniqueKey>
+-->
   
   <!-- field for the QueryParser to use when an explicit fieldname is absent -->
-  <defaultSearchField>primaryName</defaultSearchField>
+  <defaultSearchField>bt_rni_name</defaultSearchField>
 
   <!-- SolrQueryParser configuration: defaultOperator="AND|OR" -->
   <solrQueryParser defaultOperator="OR"/>

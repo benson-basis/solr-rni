@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <solr>
- 
+ <str name="sharedLib">/data/solr+rni/shared_lib</str> 
 </solr>
