@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<add>
+  <doc>
+    <field name="id" type="string">1</field>
+    <field name="bt_rni_name">William Shakespeare</field>
+    <field name="bt_rni_Name_Language">eng</field>
+    <field name="bt_rni_Name_Script">Latn</field>
+    <field name="bt_rni_Name_EntityType">65536</field>
+    <field name="year_of_birth">1564</field>
+  </doc>
+  <doc>
+    <field name="id" type="string">2</field>
+    <field name="bt_rni_name">William Shakespeare</field>
+    <field name="bt_rni_Name_Language">eng</field>
+    <field name="bt_rni_Name_Script">Latn</field>
+    <field name="bt_rni_Name_EntityType">65536</field>
+    <field name="year_of_birth">1869</field>
+  </doc>
+</add>
+
+<!-- Sample query:
+bt_rni_name:"Will Shakespeare" bt_rni_Name_Language:eng bt_rni_Name_Script:Latn bt_rni_Name_EntityType:65536 year_of_birth:1869
+-->

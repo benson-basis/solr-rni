@@ -1,0 +1,18 @@
+<add>
+    <doc>
+        <field name="uid">10353</field>
+        <field name="primaryName">Jesus Alfonso Lopez Diaz</field>
+        <field name="aka">Jesus Lopez Diaz</field>
+        <field name="aka">Jesus Alfonso Diaz</field>
+        <field name="dob">1962-09-30T00:00:00Z</field>
+        <field name="address">Avenida Const. Pedro L Zavala 1957, Colonia Libertad, Culiacan, Sinaloa, 80180, Mexico</field>
+        <field name="nationality">Mexico</field>
+    </doc>
+    <doc>
+        <field name="uid">98349</field>
+        <field name="primaryName">Jesus Alfonso Lopez Diaz</field>
+        <field name="dob">1945-09-30T00:00:00Z</field>
+        <field name="address">Avenida Const. Pedro L Zavala 1957, Colonia Libertad, Culiacan, Sinaloa, 80180, Mexico</field>
+        <field name="nationality">Mexico</field>
+    </doc>
+</add>
