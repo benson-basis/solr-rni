@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- 
+     For more details about configurations options that may appear in
+     this file, see http://wiki.apache.org/solr/SolrConfigXml. 
+-->
+<config>
+  <luceneMatchVersion>4.10</luceneMatchVersion>
+
+  <!--Adjust the following lib entry if you move bt-rni-solr4x-plugins.jar to a different location.-->
+  <lib path="${bt.root}/rlpnc/samples/java/lib/bt-rni-solr4x-plugins.jar" />
+  
+  <!--The pairwise name matching function query -->
+  <valueSourceParser name="rniMatch" class="com.basistech.rni.solr.NameMatchValueSourceParser"/>
+  <!--Version of the rerank query parser with various bug fixes. Unnecessary if using Solr 4.10.3 or greater -->
+  <queryParser name="fixedRerank" class="org.apache.solr.search.Solr4_10_3ReRankQParserPlugin"/>
+  
+  <updateRequestProcessorChain name="RNI">
+    <!--Custom processor required when using multivalued name fields -->
+    <processor class="com.basistech.rni.solr.MultiValueNameUpdateRequestProcessorFactory"/>
+    
+    <!--Other processors can be configured as desired -->
+    <processor class="solr.LogUpdateProcessorFactory" />
+    <processor class="solr.UUIDUpdateProcessorFactory">
+      <str name="fieldName">id</str>
+    </processor>
+    <processor class="solr.DistributedUpdateProcessorFactory"/>
+    <processor class="solr.RunUpdateProcessorFactory" />
+  </updateRequestProcessorChain>
+  
+ <!--If using multivalued name fields, then add the URP to the update chain -->
+  <requestHandler name="/update" class="solr.UpdateRequestHandler">
+    <lst name="defaults">
+      <str name="update.chain">RNI</str>
+    </lst>
+  </requestHandler>
+  
+  <!-- End of RNI specific configuration -->
+  
+  <!--Standard solr configuration -->
+  <dataDir>${solr.data.dir:}</dataDir>
+
+  <directoryFactory name="DirectoryFactory" 
+                    class="${solr.directoryFactory:solr.NRTCachingDirectoryFactory}">
+  </directoryFactory> 
+  
+  <requestHandler name="/select" class="solr.SearchHandler">
+    <!-- default values for query parameters can be specified, these
+         will be overridden by parameters in the request
+      -->
+     <lst name="defaults">
+       <str name="echoParams">explicit</str>
+       <int name="rows">10</int>
+       <str name="df">text</str>
+     </lst>
+  </requestHandler>
+  
+  <!-- Admin Handlers
+
+       Admin Handlers - This will register all the standard admin
+       RequestHandlers.  
+    -->
+  <requestHandler name="/admin/" 
+                  class="solr.admin.AdminHandlers" />
+  <!-- ping/healthcheck -->
+  <requestHandler name="/admin/ping" class="solr.PingRequestHandler">
+    <lst name="invariants">
+      <str name="q">solrpingquery</str>
+    </lst>
+    <lst name="defaults">
+      <str name="echoParams">all</str>
+    </lst>
+  </requestHandler>
+  <!-- Echo the request contents back to the client -->
+  <requestHandler name="/debug/dump" class="solr.DumpRequestHandler" >
+    <lst name="defaults">
+     <str name="echoParams">explicit</str> 
+     <str name="echoHandler">true</str>
+    </lst>
+  </requestHandler>
+  
+  <queryResponseWriter name="json" class="solr.JSONResponseWriter">
+     <!-- For the purposes of the tutorial, JSON responses are written as
+      plain text so that they are easy to read in *any* browser.
+      If you expect a MIME type of "application/json" just remove this override.
+     -->
+    <str name="content-type">text/plain; charset=UTF-8</str>
+  </queryResponseWriter>
+  
+  <!-- Legacy config for the admin interface -->
+  <admin>
+    <defaultQuery>*:*</defaultQuery>
+  </admin>
+  
+  <!--The following is required for SolrCloud -->
+  <updateHandler class="solr.DirectUpdateHandler2">
+    <updateLog>
+      <str name="dir">${solr.ulog.dir:}</str>
+    </updateLog>
+  </updateHandler>
+  <requestHandler name="/replication" class="solr.ReplicationHandler" /> 
+</config>
