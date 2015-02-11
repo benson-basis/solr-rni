@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <solr>
- <str name="sharedLib">/data/solr+rni/shared_lib</str> 
+<!-- the number is the svn commit # of the build -->
+ <str name="sharedLib">/data/solr+rni/shared_lib_45966</str> 
 </solr>

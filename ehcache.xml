@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="ehcache.xsd"
-         updateCheck="false" monitoring="autodetect"
+         updateCheck="false"
+	 monitoring="autodetect"
          dynamicConfig="true"
          name="basistech-rni"
-         maxBytesLocalHeap="180g">
+         maxBytesLocalHeap="100g">
     <cacheManagerEventListenerFactory class="" properties=""/>
     <cache name="globalTokenCache"
-           maxBytesLocalHeap="180g"
+           maxBytesLocalHeap="100g"
            eternal="false"
            timeToIdleSeconds="600"
            overflowToDisk="false"
