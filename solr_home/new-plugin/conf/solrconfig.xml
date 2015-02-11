@@ -13,8 +13,6 @@
   
   <!--The pairwise name matching function query -->
   <valueSourceParser name="rniMatch" class="com.basistech.rni.solr.NameMatchValueSourceParser"/>
-  <!--Version of the rerank query parser with various bug fixes. Unnecessary if using Solr 4.10.3 or greater -->
-  <queryParser name="fixedRerank" class="org.apache.solr.search.Solr4_10_3ReRankQParserPlugin"/>
   
   <updateRequestProcessorChain name="RNI">
     <!--Custom processor required when using multivalued name fields -->
