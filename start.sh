@@ -1,5 +1,5 @@
 #!/bin/bash
-bt_root=/data/root_java_45948
+bt_root=/data/root_java_45966
 ehcache=/data/solr+rni/ehcache.xml
 echo bt_root: $bt_root
 jmx="-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=9010 -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dbt.rni.ehcache.jmx=true"

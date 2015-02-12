@@ -65,10 +65,10 @@
    <field name="bt_rni_NameHRK_queryInitialism" type="text_ws" indexed="true" stored="false" multiValued="false" />
    
    <!-- contains the entire name object serialized in json -->
-   <field name="bt_rni_Name_Store" type="string" indexed="false" stored="true" multiValued="false" />
+   <field name="bt_rni_Name_Store" type="binary" indexed="false" stored="true" multiValued="false" />
 
-  <field name="_version_" type="long" indexed="true" stored="true" multiValued="false"/>
-  <field name="year_of_birth" type="integer" indexed="true" stored="true" multiValued="false"/>
+   <field name="_version_" type="long" indexed="true" stored="true" multiValued="false"/>
+   <field name="year_of_birth" type="integer" indexed="true" stored="true" multiValued="false"/>
  </fields>
 <!-- rnicli doesn't provide.
   <uniqueKey>id</uniqueKey>
