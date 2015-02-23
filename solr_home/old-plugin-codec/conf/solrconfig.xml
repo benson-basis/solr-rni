@@ -11,9 +11,8 @@
   <lib path="${bt.root}/rlpnc/samples/java/lib/bt-rni-solr4x-plugins.jar" />
 -->
 
-<!--
+<!-- enable the direct posting codec -->
   <codecFactory name="CodecFactory" class="com.basistech.rni.solr.DirectPostingCodecFactory" />
--->
 
   <searchComponent name="name-indexing-query" class="com.basistech.rni.solr.NameIndexingQueryComponent" />  
   <searchComponent name="name-indexing-rescore" class="com.basistech.rni.solr.NameIndexingRescoreComponent"/>
