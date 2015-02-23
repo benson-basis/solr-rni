@@ -3,3 +3,4 @@ solr_home/new-plugin/conf/_rest_managed.json
 solr_home/new-plugin/data/
 solr_home/old-plugin/conf/_rest_managed.json
 solr_home/old-plugin/data/
+solr_home/old-plugin-codec/data
