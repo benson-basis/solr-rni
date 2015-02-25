@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- 
+     For more details about configurations options that may appear in
+     this file, see http://wiki.apache.org/solr/SolrConfigXml. 
+-->
+<config>
+  <luceneMatchVersion>4.10</luceneMatchVersion>
+
+  <!--Adjust the following lib entry if you move bt-rni-solr4x-plugins.jar to a different location.-->
+<!--
+  <lib path="${bt.root}/rlpnc/samples/java/lib/bt-rni-solr4x-plugins.jar" />
+-->
+
+<!--
+  <codecFactory name="CodecFactory" class="com.basistech.rni.solr.DirectPostingCodecFactory" />
+-->
+
+  <searchComponent name="name-indexing-query" class="com.basistech.rni.solr.NameIndexingQueryComponent" />  
+  <searchComponent name="name-indexing-rescore" class="com.basistech.rni.solr.NameIndexingRescoreComponent"/>
+  <requestHandler name="/RNI" class="solr.SearchHandler" default="false">
+    <arr name="components">
+        <str>name-indexing-query</str>
+        <str>name-indexing-rescore</str>
+        <str>facet</str>
+        <str>mlt</str>
+        <str>highlight</str>
+        <str>stats</str>
+        <str>debug</str>
+      </arr>
+      <lst name="defaults">
+        <str name="echoParams">explicit</str>
+        <int name="rows">1000</int>
+      </lst>
+    </requestHandler>
+
+    <!-- activate RNI processing by adding the RNI URP to the chain for xml updates -->
+  <requestHandler name="/update" 
+                  class="solr.UpdateRequestHandler">
+    <lst name="defaults">
+      <str name="update.chain">RNI</str>
+    </lst>
+    </requestHandler>
+
+   <updateRequestProcessorChain name="RNI">
+    <!-- some day, add parameters when we have some -->
+    <processor class="com.basistech.rni.solr.NameIndexingUpdateRequestProcessorFactory"/>
+    <processor class="solr.LogUpdateProcessorFactory" />
+    <processor class="solr.RunUpdateProcessorFactory" />
+  </updateRequestProcessorChain>
+
+  <!-- End of RNI specific configuration -->
+  
+  <!--Standard solr configuration -->
+  <dataDir>${solr.data.dir:}</dataDir>
+
+  <directoryFactory name="DirectoryFactory" 
+                    class="${solr.directoryFactory:solr.NRTCachingDirectoryFactory}">
+  </directoryFactory> 
+  
+  <requestHandler name="/select" class="solr.SearchHandler">
+    <!-- default values for query parameters can be specified, these
+         will be overridden by parameters in the request
+      -->
+     <lst name="defaults">
+       <str name="echoParams">explicit</str>
+       <int name="rows">10</int>
+       <str name="df">text</str>
+     </lst>
+  </requestHandler>
+  
+  <!-- Admin Handlers
+
+       Admin Handlers - This will register all the standard admin
+       RequestHandlers.  
+    -->
+  <requestHandler name="/admin/" 
+                  class="solr.admin.AdminHandlers" />
+  <!-- ping/healthcheck -->
+  <requestHandler name="/admin/ping" class="solr.PingRequestHandler">
+    <lst name="invariants">
+      <str name="q">solrpingquery</str>
+    </lst>
+    <lst name="defaults">
+      <str name="echoParams">all</str>
+    </lst>
+  </requestHandler>
+  <!-- Echo the request contents back to the client -->
+  <requestHandler name="/debug/dump" class="solr.DumpRequestHandler" >
+    <lst name="defaults">
+     <str name="echoParams">explicit</str> 
+     <str name="echoHandler">true</str>
+    </lst>
+  </requestHandler>
+  
+  <queryResponseWriter name="json" class="solr.JSONResponseWriter">
+     <!-- For the purposes of the tutorial, JSON responses are written as
+      plain text so that they are easy to read in *any* browser.
+      If you expect a MIME type of "application/json" just remove this override.
+     -->
+    <str name="content-type">text/plain; charset=UTF-8</str>
+  </queryResponseWriter>
+  
+  <!-- Legacy config for the admin interface -->
+  <admin>
+    <defaultQuery>*:*</defaultQuery>
+  </admin>
+  
+  <!--The following is required for SolrCloud -->
+  <updateHandler class="solr.DirectUpdateHandler2">
+    <updateLog>
+      <str name="dir">${solr.ulog.dir:}</str>
+    </updateLog>
+  </updateHandler>
+  <requestHandler name="/replication" class="solr.ReplicationHandler" /> 
+</config>
