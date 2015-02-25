@@ -6,32 +6,30 @@
 <config>
   <luceneMatchVersion>4.10</luceneMatchVersion>
 
-  <!--Adjust the following lib entry if you move bt-rni-solr4x-plugins.jar to a different location.-->
-<!--
-  <lib path="${bt.root}/rlpnc/samples/java/lib/bt-rni-solr4x-plugins.jar" />
--->
-
-<!--
-  <codecFactory name="CodecFactory" class="com.basistech.rni.solr.DirectPostingCodecFactory" />
--->
+  <indexConfig>
+    <lockType>native</lockType>
+    <nrtMode>true</nrtMode>
+    <infoStream>false</infoStream>
+  </indexConfig>
 
   <searchComponent name="name-indexing-query" class="com.basistech.rni.solr.NameIndexingQueryComponent" />  
   <searchComponent name="name-indexing-rescore" class="com.basistech.rni.solr.NameIndexingRescoreComponent"/>
+
   <requestHandler name="/RNI" class="solr.SearchHandler" default="false">
-    <arr name="components">
+    <arr name="first-components">
         <str>name-indexing-query</str>
         <str>name-indexing-rescore</str>
-        <str>facet</str>
-        <str>mlt</str>
-        <str>highlight</str>
-        <str>stats</str>
-        <str>debug</str>
       </arr>
-      <lst name="defaults">
-        <str name="echoParams">explicit</str>
-        <int name="rows">1000</int>
-      </lst>
-    </requestHandler>
+  </requestHandler>
+
+  <requestHandler name="/get" class="solr.RealTimeGetHandler">
+     <lst name="defaults">
+       <str name="omitHeader">true</str>
+       <str name="wt">json</str>
+       <str name="indent">true</str>
+     </lst>
+  </requestHandler>
+
 
     <!-- activate RNI processing by adding the RNI URP to the chain for xml updates -->
   <requestHandler name="/update" 
@@ -114,5 +112,6 @@
       <str name="dir">${solr.ulog.dir:}</str>
     </updateLog>
   </updateHandler>
+
   <requestHandler name="/replication" class="solr.ReplicationHandler" /> 
 </config>
