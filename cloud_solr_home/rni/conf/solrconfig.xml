@@ -45,6 +45,9 @@
     <!-- some day, add parameters when we have some -->
     <processor class="com.basistech.rni.solr.NameIndexingUpdateRequestProcessorFactory"/>
     <processor class="solr.LogUpdateProcessorFactory" />
+    <processor class="solr.UUIDUpdateProcessorFactory">
+      <str name="fieldName">id</str>
+    </processor>
     <processor class="solr.RunUpdateProcessorFactory" />
   </updateRequestProcessorChain>
 
