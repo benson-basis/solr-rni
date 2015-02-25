@@ -12,5 +12,5 @@ rniopts="-Dbt.root=/data/root_java_46032 -Dbt.rni.ehcacheConfig=/data/solr+rni/e
 echo bt_root: $bt_root
 DIR=$PWD
 cd ../solr-4.10.3/example
-java -Xmx200g $gcopts $rniopts $solropts -DzkRun -jar start.jar
+java -Xmx200g $gcopts $rniopts $solropts -DzkRun -jar start.jar &
 
