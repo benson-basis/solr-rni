@@ -2,7 +2,6 @@
 <schema name="bt_rni_sample" version="1.5">
     
   <types>
-    <fieldType name="uuid" class="solr.UUIDField" indexed="true" />
     <fieldType name="string" class="solr.StrField" sortMissingLast="true" omitNorms="true"/>
     <fieldType name="integer" class="solr.IntField" omitNorms="true"/>
     <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true" omitNorms="true"/>
@@ -20,7 +19,6 @@
 
    <!-- indexed=true only to allow it to be default. -->
    <field name="bt_rni_name" type="string" indexed="true" stored="true" multiValued="false" />
-   <field name="id" type="uuid" indexed="true" stored="true" required="true"/>
    
    <!-- used only in queries to distinguish the language of a name supplied for the query
         from the language of the name the query finds. -->
@@ -72,8 +70,7 @@
    <field name="year_of_birth" type="integer" indexed="true" stored="true" multiValued="false"/>
  </fields>
 
-  <uniqueKey>id</uniqueKey>
-
+  <uniqueKey>bt_rni_Name_UID</uniqueKey>
   <!-- field for the QueryParser to use when an explicit fieldname is absent -->
   <defaultSearchField>bt_rni_name</defaultSearchField>
 
