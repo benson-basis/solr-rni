@@ -1,5 +1,4 @@
 #!/bin/bash
-# initial setup to make 8 shareds on this node.
 bt_root=/data/root_java_46032
 ehcache=/data/solr+rni/ehcache.xml
 
