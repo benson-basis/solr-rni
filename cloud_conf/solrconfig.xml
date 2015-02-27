@@ -21,9 +21,9 @@
   <searchComponent name="name-indexing-rescore" class="com.basistech.rni.solr.NameIndexingRescoreComponent"/>
 
   <requestHandler name="/RNI" class="solr.SearchHandler" default="false">
-    <list name="defaults">
+    <lst name="defaults">
       <str name="shards.qt">RNI</str>
-    </list>
+    </lst>
     <arr name="components">
         <str>name-indexing-query</str>
         <str>name-indexing-rescore</str>
