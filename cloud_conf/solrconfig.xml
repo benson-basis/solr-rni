@@ -6,6 +6,11 @@
 <config>
   <luceneMatchVersion>4.10</luceneMatchVersion>
 
+<!-- Not ready for this yet.
+  <documentCache class="solr.LRUCache" size="100000" initialSize="100000" />
+  <queryResultCache class="Solr.LRUCache" size="100000" initialSize="100000" />
+-->
+
   <indexConfig>
     <lockType>native</lockType>
     <nrtMode>true</nrtMode>
@@ -16,6 +21,9 @@
   <searchComponent name="name-indexing-rescore" class="com.basistech.rni.solr.NameIndexingRescoreComponent"/>
 
   <requestHandler name="/RNI" class="solr.SearchHandler" default="false">
+    <list name="defaults">
+      <str name="shards.qt">RNI</str>
+    </list>
     <arr name="components">
         <str>name-indexing-query</str>
         <str>name-indexing-rescore</str>
